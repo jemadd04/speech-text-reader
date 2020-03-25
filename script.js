@@ -48,7 +48,7 @@ const data = [
   },
   {
     image: './img/school.jpg',
-    text: 'I Want To Go School'
+    text: 'I Want To Go To School'
   },
   {
     image: './img/grandma.jpg',
@@ -70,10 +70,20 @@ function createBox(item) {
     <p class="info">${text}</p>
   `;
 
-  // @todo - speak event
+  box.addEventListener('click', () => {
+    setTextMessage(text);
+    speakText();
+
+    // Add active effect
+    box.classList.add('active');
+    setTimeout(() => box.classList.remove('active'), 800);
+  });
 
   main.appendChild(box);
 }
+
+// Init speech synth
+const message = new SpeechSynthesisUtterance();
 
 // Store voices
 let voices = [];
@@ -89,6 +99,16 @@ function getVoices() {
 
     voicesSelect.append(option);
   });
+}
+
+// Set text
+function setTextMessage(text) {
+  message.text = text;
+}
+
+// Speak text
+function speakText() {
+  speechSynthesis.speak(message);
 }
 
 // Voices changed
